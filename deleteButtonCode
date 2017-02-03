@@ -1,0 +1,117 @@
+# Delete button
+
+w = Framer.Device.screen.width
+h = Framer.Device.screen.height
+
+# Import layers
+
+bg = new Layer
+	width: 750
+	height: 1334
+	backgroundColor: "white"
+	
+item = new Layer
+	x:0, y:511 
+	width:750, height:158 
+	image:"images/bdp_download_controls_1.0_item.png"
+
+cell = new Layer
+	x: 0, y: 667
+	width: 950, height: 98
+	
+bar = new Layer
+	x:0, y:0 
+	width:750, height:98 
+	image:"images/bdp_download_controls_1.0_cell.png"
+bar.superLayer = cell
+
+button = new Layer
+	x:750, y:0
+	width:200, height:100 
+	image:"images/bdp_download_controls_1.0_delete.png"
+button.superLayer = cell
+
+expand = new Layer
+	x:0, y:765 
+	width:750, height:669 
+	image:"images/bdp_download_controls_1.0_expand.png"
+
+bg2 = new Layer
+	x:0, y:1400 
+	width:752, height:946 
+	image:"images/bdp_download_controls_1.0_bg2.png"
+	
+bg1 = new Layer
+	x:0, y:0 
+	width:752, height:516 
+	image:"images/bdp_download_controls_1.0_bg1.png"
+	
+popover = new Layer
+	x:0, y:0
+	width:371, height:215 
+	image:"images/bdp_download_controls_1.0_popover.png"
+	
+cell.draggable.enabled = true
+cell.draggable.speedY = 0
+
+popover.centerX()
+popover.y = h
+
+cell.on Events.DragEnd, ->
+	if cell.x < -100
+		cell.animate
+			properties:
+				x: -200
+			time: 0.2
+			
+	else
+		cell.animate
+			properties:
+				x: 0
+			time: 0.2
+		button.animate
+			properties:
+				time: 0.2
+
+button.on Events.Click, ->
+	popover.animate
+		properties:
+			y: 1048
+		time: 0.3
+		curve: "spring(450,33.0)"
+		
+popover.on Events.Click, ->
+	button.animate
+		properties:
+			x: 950
+		time: 0.2
+	bar.animate
+		properties:
+			x: 200
+		time: 0.2
+	item.animate
+		properties:
+			y: 158
+		delay: 0.3
+		time: 0.2
+	cell.animate
+		properties:
+			y: 98
+		delay: 0.3
+		time: 0.2
+	expand.animate
+		properties:
+			opacity: 0
+			y: -120
+		delay: 0.3
+		time: 0.3
+	bg2.animate
+		properties:
+			y: 510
+		delay: 0.3
+		time: 0.3
+	popover.animate
+		properties:
+			opacity: 0
+		delay: 0.8
+		time: 0.4
